@@ -1,0 +1,30 @@
+{
+  "name": "visulastic",
+  "main": [
+    "/dist/visulastic.min.js",
+    "/dist/visulastic.min.css"
+  ],
+  "version": "0.1.0",
+  "description": "TODO",
+  "authors": [
+    "TODO"
+  ],
+  "ignore": [
+    "**/.*",
+    "package.json",
+    "node_modules",
+    "bower_components",
+    "src"
+  ],
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-bootstrap": "0.x",
+    "angular-mocks": "1.2.x",
+    "elasticsearch": "2.x"
+
+  },
+  "devDependencies": {
+
+  }
+}

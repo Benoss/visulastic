@@ -1,0 +1,28 @@
+{
+  "name": "benoit-sample-app",
+  "description": "Sample app for Angular + Broccoli",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Benoit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+  },
+  "devDependencies": {
+    "bower": "1.x",
+    "broccoli": "0.x",
+    "broccoli-env": "0.x",
+    "broccoli-static-compiler": "0.x",
+    "broccoli-uglify-js": "0.x",
+    "broccoli-merge-trees": "0.x",
+    "broccoli-concat": "0.x",
+    "broccoli-csso": "0.x.x",
+    "broccoli-select": "0.x.x"
+  },
+  "dependencies": {
+
+  }
+}
