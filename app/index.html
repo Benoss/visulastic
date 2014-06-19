@@ -8,7 +8,7 @@
 
 <body ng-controller="VisulasticCtrl">
 
-  <div class="navbar navbar-default navbar-fixed-top">
+  <div ng-controller="HeaderCtrl" class="navbar navbar-default navbar-fixed-top">
         <div class="container-liquid">
           <div class="navbar-header">
             <a href="../" class="navbar-brand">Visulastic</a>
@@ -17,6 +17,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+          </div>
+          <div class="nav navbar-nav ">
+            <input type="text" ng-model="host"></input>
+              <div type="button" class="btn btn-success" ng-click="setServer(host)">Go</div>
           </div>
           <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
