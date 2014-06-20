@@ -2,7 +2,7 @@
 
 visulastic.controller('VisulasticCtrl', ['$scope','es', function($scope, es) {
   $scope.status = "Undifined";
-
+  $scope.searchIndex = "";
   es.getClient().ping({
       requestTimeout: 1000,
       hello: "elasticsearch!"
@@ -11,11 +11,11 @@ visulastic.controller('VisulasticCtrl', ['$scope','es', function($scope, es) {
   function(value) {$scope.status = value.message;}
 );
 
-
+    $scope.indexes = es.getIndexes();
 
     $scope.cluster = "Undif";
 
-    es.getClient().cluster.state().then(function(value){$scope.cluster = value;});
+
 
   }]);
 
@@ -26,6 +26,8 @@ visulastic.controller('VisulasticCtrl', ['$scope','es', function($scope, es) {
             es.setHost(h);
             console.log(h);
         }
+
+
 
 
 }]);

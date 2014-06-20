@@ -48,6 +48,14 @@ var myJsConcat = concat('app/js', {
   outputFile: '/static/js/app.js'
 });
 
+if (env === 'development') {
+    var copyMaps = pickFiles('app', {
+        srcDir: '/',
+        files: ['**/*.map'],
+        destDir: '/static/'
+    });
+};
+
 //Minified css and js in prod only
 if (env === 'production') {
   jsVendorConcatenated = uglifyJavaScript(jsVendorConcatenated, {
@@ -61,4 +69,4 @@ if (env === 'production') {
   cssConcatenated = csso(cssConcatenated, {});
 }
 
-module.exports = mergeTrees([htmlTree, cssConcatenated, jsVendorConcatenated, myJsConcat]);
+module.exports = mergeTrees([htmlTree, cssConcatenated, jsVendorConcatenated, myJsConcat, copyMaps]);
