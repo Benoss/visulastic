@@ -79,15 +79,17 @@
         <div class="row">
           <div class="col-lg-6">
             <h1>{{status}}</h1>
+              <h2>{{getIndicesInfos()}}</h2>
             <p><input type="text" ng-model="searchIndex"/></p>
-              <ul ng-repeat="index in indexes | filter:searchIndex">
+              <ul ng-repeat="index in getIndicesInfos().indicesKeys | filter:searchIndex">
                   <li>{{index}}</li>
               </ul>
           </div>
-<div class="col-lg-6">
-  <h1>{{cluster}}
+        <div class="col-lg-6">
+         <h1>{{cluster()}}
         </div>
       </div>
+            </div>
   </div>
 </body>
 </html>

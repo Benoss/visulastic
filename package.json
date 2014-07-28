@@ -20,7 +20,8 @@
     "broccoli-merge-trees": "0.x",
     "broccoli-concat": "0.x",
     "broccoli-csso": "0.x.x",
-    "broccoli-select": "0.x.x"
+    "broccoli-select": "0.x.x",
+    "broccoli-coffee": "0.x.x"
   },
   "dependencies": {
 

@@ -5,6 +5,7 @@ var pickFiles = require('broccoli-static-compiler');
 var concat = require('broccoli-concat');
 var csso = require('broccoli-csso');
 var uglifyJavaScript = require('broccoli-uglify-js');
+var filterCoffeeScript = require('broccoli-coffee');
 
 var htmlTree = pickFiles('app', {
   srcDir: '/',
@@ -38,23 +39,29 @@ var jsVendorConcatenated = concat('bower_components', {
     'angular-route/angular-route.js',
     'angular-mocks/angular-mocks.js',
     'angular-bootstrap/ui-bootstrap.js',
-    'elasticsearch/elasticsearch.angular.js'
+    'elasticsearch/elasticsearch.angular.js',
+    'vendor/ng-grid-2.0.11.debug.js'
   ],
   outputFile: '/static/js/vendor.js'
 });
 
-var myJsConcat = concat('app/js', {
+
+
+var myJsConcat = filterCoffeeScript('app/js', {});
+
+myJsConcat = concat(myJsConcat, {
   inputFiles: ['**/*.js'],
   outputFile: '/static/js/app.js'
 });
 
-if (env === 'development') {
-    var copyMaps = pickFiles('app', {
-        srcDir: '/',
-        files: ['**/*.map'],
-        destDir: '/static/'
-    });
-};
+//if (env === 'development') {
+//    var copyMaps = pickFiles('app', {
+//        srcDir: '/',
+//        files: ['**/*.map'],
+//        destDir: '/static/'
+//    });
+//};
+
 
 //Minified css and js in prod only
 if (env === 'production') {
@@ -69,4 +76,4 @@ if (env === 'production') {
   cssConcatenated = csso(cssConcatenated, {});
 }
 
-module.exports = mergeTrees([htmlTree, cssConcatenated, jsVendorConcatenated, myJsConcat, copyMaps]);
+module.exports = mergeTrees([htmlTree, cssConcatenated, jsVendorConcatenated, myJsConcat]);
