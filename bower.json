@@ -1,30 +1,12 @@
 {
-  "name": "visulastic",
-  "main": [
-    "/dist/visulastic.min.js",
-    "/dist/visulastic.min.css"
-  ],
-  "version": "0.1.0",
-  "description": "TODO",
-  "authors": [
-    "TODO"
-  ],
-  "ignore": [
-    "**/.*",
-    "package.json",
-    "node_modules",
-    "bower_components",
-    "src"
-  ],
+  "name": "Your Awesome Application's Name",
+  "version": "0.0.1",
+  "main": "public/app.js",
   "dependencies": {
-    "angular": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-bootstrap": "0.x",
-    "angular-mocks": "1.2.x",
-    "elasticsearch": "2.x"
-
+    "angular-route": ">=1.2.0",
+    "angular-ui-bootstrap-bower": ">=0.5.0",
+    "bootstrap": ">=3.0.0",
+    "js-yaml": "~3.1.0"
   },
-  "devDependencies": {
-
-  }
+  "overrides": {}
 }

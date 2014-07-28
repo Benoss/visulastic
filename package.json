@@ -1,29 +1,21 @@
 {
-  "name": "benoit-sample-app",
-  "description": "Sample app for Angular + Broccoli",
-  "version": "0.0.0",
+  "name": "Visualistic",
+  "description": "Description",
+  "author": "Your Name",
+  "version": "0.0.1",
   "private": true,
-  "author": "Benoit",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
   "scripts": {
-  },
-  "devDependencies": {
-    "bower": "1.x",
-    "broccoli": "0.x",
-    "broccoli-env": "0.x",
-    "broccoli-static-compiler": "0.x",
-    "broccoli-uglify-js": "0.x",
-    "broccoli-merge-trees": "0.x",
-    "broccoli-concat": "0.x",
-    "broccoli-csso": "0.x.x",
-    "broccoli-select": "0.x.x",
-    "broccoli-coffee": "0.x.x"
+    "start": "brunch watch --server",
+    "test": "brunch test"
   },
   "dependencies": {
-
+    "auto-reload-brunch": "^1.7.3",
+    "clean-css-brunch": "~1.7.1",
+    "coffee-script-brunch": "~1.8.0",
+    "css-brunch": "~1.7.0",
+    "javascript-brunch": "~1.7.1",
+    "less": "~1.7.4",
+    "less-brunch": "~1.7.2",
+    "uglify-js-brunch": "~1.7.7"
   }
 }
