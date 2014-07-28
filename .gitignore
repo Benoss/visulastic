@@ -19,3 +19,4 @@ npm-debug.log
 /tmp/
 /scripts/bower/bower-*
 public/
+app/scripts/**/*.js

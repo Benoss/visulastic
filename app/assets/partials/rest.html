@@ -1,0 +1,37 @@
+<div class="row ace_page">
+  <div class="col-md-4">
+    <div class="row">
+      <div class="input-group">
+        <input type='text' class="form-control" ng-model="es_url"></input>
+        <div class="input-group-btn" dropdown >
+          <button type="button" class="btn btn-danger" ng-click="exec_query()">
+            <span class="glyphicon glyphicon-play"></span>
+            {{verb}}
+          </button>
+          <button type="button" class="btn btn-danger dropdown-toggle">
+            <span class="caret"></span>
+            <span class="sr-only">Split button!</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="javascript:void(0)" ng-click="verb = 'GET'">GET</a></li>
+            <li><a href="javascript:void(0)" ng-click="verb = 'POST'">POST</a></li>
+            <li><a href="javascript:void(0)" ng-click="verb = 'PUT'">PUT</a></li>
+            <li><a href="javascript:void(0)" ng-click="verb = 'DELETE'">DELETE</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+  <!-- <tabset>
+    <tab heading="Json"> -->
+      <div ui-ace="{ onLoad : aceJson, mode: 'json' }" ng-model="query_json" ng-change="json_to_yaml()"></div>
+    <!-- </tab>
+    <tab heading="Yaml"> -->
+      <div ui-ace="{ onLoad : aceYaml, mode: 'yaml'}" ng-model="query_yaml" ng-change="yaml_to_json()"></div>
+    <!-- </tab>
+  </tabset> -->
+  <div>{{parse_error.message}}</div>
+</div>
+</div>
+  <div ui-ace class="col-md-8 ace_result" ng-model="result"></div>
+</div>
