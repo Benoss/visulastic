@@ -1,8 +1,8 @@
-<div class="row ace_page">
-  <div class="col-md-4">
+<div class="row-fluid ace_page">
+  <div class="col-md-4 no_padding">
     <div class="row">
       <div class="input-group">
-        <input type='text' class="form-control" ng-model="es_url"></input>
+        <input type='text' class="form-control" ng-model="$storage.es_url"></input>
         <div class="input-group-btn" dropdown >
           <button type="button" class="btn btn-danger" ng-click="exec_query()">
             <span class="glyphicon glyphicon-play"></span>
@@ -22,16 +22,29 @@
       </div>
     </div>
     <div class="row">
-  <!-- <tabset>
-    <tab heading="Json"> -->
-      <div ui-ace="{ onLoad : aceJson, mode: 'json' }" ng-model="query_json" ng-change="json_to_yaml()"></div>
-    <!-- </tab>
-    <tab heading="Yaml"> -->
-      <div ui-ace="{ onLoad : aceYaml, mode: 'yaml'}" ng-model="query_yaml" ng-change="yaml_to_json()"></div>
-    <!-- </tab>
-  </tabset> -->
-  <div>{{parse_error.message}}</div>
+  <tabset>
+    <tab heading="Json" select="getJsonQuery()">
+      <div ui-ace="{ onLoad : aceLoad, mode: 'json' }" ng-model="queries.query_json" ng-change="json_to_yaml()" class="ace_query"></div>
+    </tab>
+    <tab heading="Yaml" select="getYamlQuery()">
+      <div ui-ace="{ onLoad : aceLoad, mode: 'yaml'}" ng-model="queries.query_yaml" ng-change="yaml_to_json()"  class="ace_query"></div>
+    </tab>
+  </tabset>
+  <div>{{queries.parse_error.message}}</div>
+  <div>{{queries.query}}</div>
 </div>
 </div>
-  <div ui-ace class="col-md-8 ace_result" ng-model="result"></div>
+  <div class="col-md-8">
+      <tabset>
+        <tab heading="Json" active="$storage.result_tabs.json" select="transphormResultForTab()">
+            <div ui-ace="{ onLoad : aceLoad, mode: 'json'}" class="ace_result" ng-model="queries.result" ></div>
+        </tab>
+        <tab heading="Yaml" active="$storage.result_tabs.yaml" select="transphormResultForTab()">
+            <div ui-ace="{onLoad : aceLoad, mode: 'yaml'}" class="ace_result" ng-model="queries.result" ></div>
+        </tab>
+        <tab heading="Grid" active="$storage.result_tabs.grid" select="transphormResultForTab()">
+          <div class="grid_result" ng-grid="gridOptions"></div>
+        </tab>
+      </tabset>
+  </div>
 </div>

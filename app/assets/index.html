@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Visulastic</title>
-  <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/vendor.css">
+  <link rel="stylesheet" href="css/app.css">
   <script src="js/vendor.js"></script>
   <script src="js/app.js"></script>
   <script>require('app')</script>
@@ -31,12 +31,9 @@
   </div>
 
   <div class="container-fluid">
-    <div ng-view></div>
-
-    <hr>
-    <footer>
-      <p>© Benos</p>
-    </footer>
+    <div class="row-fluid columns content">
+        <div ng-view></div>
+    </div>
   </div>
   </body>
 </html>

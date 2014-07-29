@@ -1,50 +1,149 @@
 module.exports =
-  ['$http', '$scope', ($http, $scope) ->
-    $scope.es_url = 'http://localhost:9200/_search'
+  ['$http', '$scope', '$localStorage', '$window', '$timeout', ($http, $scope, $localStorage, $window, $timeout) ->
+
+    `JSON.flatten = function(data) {
+    var result = {};
+    function recurse (cur, prop) {
+        if (Object(cur) !== cur) {
+            result[prop] = cur;
+        } else if (Array.isArray(cur)) {
+             for(var i=0, l=cur.length; i<l; i++)
+                 recurse(cur[i], prop + "_" + i);
+            if (l == 0)
+                result[prop] = "[]";
+        } else {
+            var isEmpty = true;
+            for (var p in cur) {
+                isEmpty = false;
+                recurse(cur[p], prop ? prop+"_"+p : p);
+            }
+            if (isEmpty && prop)
+                result[prop] = {};
+        }
+    }
+    recurse(data, "");
+    return result;
+    }`
+
+
+    $scope.$storage = $localStorage.$default({
+        es_url: 'http://localhost:9200/_search'
+        result_tabs: {
+          "json": false,
+          "yaml": true,
+          "grid": false
+        }
+        last_query: {}
+    });
+
     $scope.verb = 'POST'
-    $scope.query_yaml = 'greeting: hello\nname: world\ntest:\n  kk: hello'
-    $scope.query_json = JSON.stringify(jsyaml.load($scope.query_yaml), null, 2)
     $scope.parse_error = ''
-    $scope.result = ''
     #_validate/query?explain=true
+
+    $scope.queries = {}
+    $scope.queries.query = $localStorage.last_query
+    $scope.gridOptions = {
+      data: 'myData',
+      enableColumnResize: true,
+      enableColumnReordering: true,
+      showColumnMenu: true
+    }
+
+    $scope.myData = [];
+
+    setQueryFromJsonString = (jsonString) ->
+      $scope.queries.query = JSON.parse(jsonString)
+
+    setQueryFromYamlString = (yamlString) ->
+      $scope.queries.query = jsyaml.load(yamlString)
+
+    $scope.getJsonQuery = ->
+      $scope.queries.query_json = JSON.stringify($scope.queries.query, null, 2)
+
+    $scope.getJsonQuery()
+
+    $scope.getYamlQuery = ->
+      $scope.queries.query_yaml = jsyaml.dump($scope.queries.query)
+
+    $scope.getYamlQuery()
 
     $scope.json_to_yaml = ->
       $scope.parse_error = ''
+      error = false
       try
-          $scope.query_yaml = jsyaml.dump(JSON.parse($scope.query_json))
-      catch e
-         $scope.parse_error = e
-    $scope.yaml_to_json = ->
-      $scope.parse_error = ''
-      try
-        $scope.query_json = JSON.stringify(jsyaml.load($scope.query_yaml), null, 2)
+        setQueryFromJsonString($scope.queries.query_json )
       catch e
         $scope.parse_error = e
+        error = true
 
-    $scope.aceJson =  (_editor)->
+      if !error
+        onQueryChanged()
+
+    $scope.yaml_to_json = ->
+      $scope.parse_error = ''
+      error = false
+      try
+        setQueryFromYamlString($scope.queries.query_yaml)
+      catch e
+        $scope.parse_error = e
+        error = true
+
+      if !error
+        onQueryChanged()
+
+    $scope.aceLoad =  (_editor)->
       _editor.renderer.setShowGutter(true)
       _editor.getSession().setTabSize(2)
       _editor.getSession().setUseSoftTabs(true)
 
-    $scope.aceYaml =  (_editor)->
-      _editor.renderer.setShowGutter(true)
-      _editor.getSession().setTabSize(2)
-      _editor.getSession().setUseSoftTabs(true)
+
+    onQueryChanged = ->
+      console.log "onQueryChanged ->" + JSON.stringify($scope.queries.query)
+      $scope.exec_query()
+
+    $scope.transphormResultForTab = ->
+      $timeout( ->
+        if $scope.$storage.result_tabs.json
+          $scope.queries.result = JSON.stringify($scope.queries.result_obj, null, 2)
+        if $scope.$storage.result_tabs.yaml
+          $scope.queries.result = jsyaml.dump($scope.queries.result_obj)
+        if $scope.$storage.result_tabs.grid
+          $scope.queries.result = ''
+
+          $scope.myData = []
+          empty_array = []
+          for hit in $scope.queries.result_obj.hits.hits
+            empty_array.push(JSON.flatten(hit))
+          $scope.myData = empty_array
+          $scope.$apply()
+      , 100)
 
     $scope.exec_query = ->
-      es_obj = JSON.parse($scope.query_json)
       try
         $http(
             method: $scope.verb
-            url: $scope.es_url
-            data: es_obj
+            url: $scope.$storage.es_url
+            data: $scope.queries.query
           )
           .success (data, status, headers, config) ->
-            $scope.result = JSON.stringify(data, null, 2)
+            $scope.queries.result_obj = data
+            $scope.transphormResultForTab()
           .error (data, status, headers, config) ->
-            $scope.result = data.error.replace(/(;)/g, "\n")
+            $scope.queries.result_obj = data
+            $scope.transphormResultForTab()
       catch e
-        $scope.result = e
+        $scope.queries.result_obj = e
+        $scope.transphormResultForTab()
 
-    $scope.exec_query()
+
+    resizeEditors = ->
+      $("div.ace_result").height($window.innerHeight - 120)
+      $("div.ace_query").height(($window.innerHeight - 140)/2)
+      $("div.grid_result").height($window.innerHeight - 120)
+
+    angular.element($window).bind 'resize', ->
+      resizeEditors()
+
+    onQueryChanged()
+    $timeout(resizeEditors, 100)
   ]

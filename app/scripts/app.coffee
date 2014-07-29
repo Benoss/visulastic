@@ -2,7 +2,8 @@ ViewOneController = require 'controllers/view1'
 ViewTwoController = require 'controllers/view2'
 EsRestController = require 'controllers/rest'
 
-app = angular.module 'Visualistic', ['ngRoute', 'ui.ace', 'ui.bootstrap']
+app = angular.module 'Visualistic', ['ngRoute', 'ui.ace', 'ui.bootstrap', 'ngStorage', 'ngGrid']
+
 
 app.config ['$routeProvider', ($routeProvider) ->
               $routeProvider
