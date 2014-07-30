@@ -1,29 +1,7 @@
 module.exports =
   ['$http', '$scope', '$localStorage', '$window', '$timeout', ($http, $scope, $localStorage, $window, $timeout) ->
 
-    `JSON.flatten = function(data) {
-    var result = {};
-    function recurse (cur, prop) {
-        if (Object(cur) !== cur) {
-            result[prop] = cur;
-        } else if (Array.isArray(cur)) {
-             for(var i=0, l=cur.length; i<l; i++)
-                 recurse(cur[i], prop + "_" + i);
-            if (l == 0)
-                result[prop] = "[]";
-        } else {
-            var isEmpty = true;
-            for (var p in cur) {
-                isEmpty = false;
-                recurse(cur[p], prop ? prop+"_"+p : p);
-            }
-            if (isEmpty && prop)
-                result[prop] = {};
-        }
-    }
-    recurse(data, "");
-    return result;
-    }`
+
 
 
     $scope.$storage = $localStorage.$default({
@@ -49,7 +27,7 @@ module.exports =
       showColumnMenu: true
     }
 
-    $scope.myData = [];
+    $scope.myData = ["t"];
 
     setQueryFromJsonString = (jsonString) ->
       $scope.queries.query = JSON.parse(jsonString)
@@ -109,13 +87,9 @@ module.exports =
           $scope.queries.result = jsyaml.dump($scope.queries.result_obj)
         if $scope.$storage.result_tabs.grid
           $scope.queries.result = ''
-
-          $scope.myData = []
-          empty_array = []
-          for hit in $scope.queries.result_obj.hits.hits
-            empty_array.push(JSON.flatten(hit))
-          $scope.myData = empty_array
-          $scope.$apply()
+          $scope.myData = $scope.queries.result_obj
+          console.log($scope.myData)
+        $scope.$apply()
       , 100)
 
     $scope.exec_query = ->
@@ -139,7 +113,7 @@ module.exports =
     resizeEditors = ->
       $("div.ace_result").height($window.innerHeight - 120)
       $("div.ace_query").height(($window.innerHeight - 140)/2)
-      $("div.grid_result").height($window.innerHeight - 120)
+      #$("div.grid_result").height($window.innerHeight - 120)
 
     angular.element($window).bind 'resize', ->
       resizeEditors()
