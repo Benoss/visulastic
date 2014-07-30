@@ -4,11 +4,11 @@
                    <th ng-repeat="header in table_headers track by $index"
                      class=""
                     >{{ header }}
-                        </th> 
+                        </th>
                   </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in rows">
+                <tr ng-repeat="row in rows" ng-click="onHandleClick(row)">
                      <td ng-repeat="val in row track by $index">{{val}}</td>
                 </tr>
             </tbody>

@@ -12,7 +12,7 @@ module.exports =
           "grid": false
         }
         last_query: {}
-    });
+    })
 
     $scope.verb = 'POST'
     $scope.parse_error = ''
@@ -27,7 +27,7 @@ module.exports =
       showColumnMenu: true
     }
 
-    $scope.myData = ["t"];
+    $scope.myData = ["t"]
 
     setQueryFromJsonString = (jsonString) ->
       $scope.queries.query = JSON.parse(jsonString)
@@ -82,7 +82,9 @@ module.exports =
     $scope.transphormResultForTab = ->
       $timeout( ->
         if $scope.$storage.result_tabs.json
-          $scope.queries.result = JSON.stringify($scope.queries.result_obj, null, 2)
+          $scope.queries.result = JSON.stringify(
+                                      $scope.queries.result_obj,
+                                      null, 2)
         if $scope.$storage.result_tabs.yaml
           $scope.queries.result = jsyaml.dump($scope.queries.result_obj)
         if $scope.$storage.result_tabs.grid
@@ -113,7 +115,7 @@ module.exports =
     resizeEditors = ->
       $("div.ace_result").height($window.innerHeight - 120)
       $("div.ace_query").height(($window.innerHeight - 140)/2)
-      #$("div.grid_result").height($window.innerHeight - 120)
+      $("div.grid_result").height($window.innerHeight - 120)
 
     angular.element($window).bind 'resize', ->
       resizeEditors()

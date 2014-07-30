@@ -4,8 +4,11 @@ module.exports = ->
     scope: { esData: "=" },
     templateUrl: "partials/es-table.html",
     link: (scope, element, attrs) ->
+
+      scope.onHandleClick = (row) ->
+
+
       scope.$watch "esData", (newValue,oldValue) ->
-        console.log(newValue)
         scope.original = []
         if scope.esData.hasOwnProperty("hits")
           if scope.esData.hits.hasOwnProperty("hits")
@@ -21,10 +24,9 @@ module.exports = ->
           flat_rows.push(flat_row)
           angular.extend(heads, flat_row)
 
-         for header, val of heads
-           scope.table_headers.push(header)
+        for header, val of heads
+          scope.table_headers.push(header)
 
-        console.log(scope.table_headers)
         for row in flat_rows
           row_vals = []
           for header, val of heads
@@ -33,7 +35,6 @@ module.exports = ->
             else
               row_vals.push("(undef)")
 
-          console.log(row_vals)
           scope.rows.push(row_vals)
 
   }
